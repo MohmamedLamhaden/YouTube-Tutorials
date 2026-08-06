@@ -1,0 +1,49 @@
+// Automatic FlutterFlow imports
+import '/backend/supabase/supabase.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart'; // Imports other custom actions
+import '/flutter_flow/custom_functions.dart'; // Imports custom functions
+import 'package:flutter/material.dart';
+// Begin custom action code
+// DO NOT REMOVE OR MODIFY THE CODE ABOVE!
+
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+Future<String> sendLoginOtp(String email) async {
+  final supabase = Supabase.instance.client;
+
+  // Validate email
+  final emailRegex = RegExp(
+    r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$",
+  );
+
+  final trimmedEmail = email.trim();
+
+  if (!emailRegex.hasMatch(trimmedEmail)) {
+    return "invalid_email";
+  }
+
+  try {
+    // Send OTP — shouldCreateUser: false ensures this only works
+    // for existing accounts and never silently creates a new one.
+    await supabase.auth.signInWithOtp(
+      email: trimmedEmail,
+      shouldCreateUser: false,
+    );
+
+    // Always return a generic success-style response so the caller
+    // can't use this to enumerate which emails have accounts.
+    return "otp_sent";
+  } on AuthException catch (e) {
+    // Supabase throws here if shouldCreateUser: false and no account exists.
+    // Map it to a generic response too, unless you specifically want
+    // to surface "account_not_found" in your UI (see note below).
+    return "otp_sent";
+  } catch (e) {
+    return "error";
+  }
+}
+
+// Set your action name, define your arguments and return parameter,
+// and then add the boilerplate code using the `</>` button on the right!
