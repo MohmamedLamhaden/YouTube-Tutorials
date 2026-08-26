@@ -1,0 +1,43 @@
+Future<String> verifyLoginOtp(String email, String token) async {
+  final supabase = Supabase.instance.client;
+  final trimmedEmail = email.trim();
+  final trimmedToken = token.trim();
+
+  if (trimmedToken.isEmpty) {
+    return "invalid_code";
+  }
+
+  // Try as an already-confirmed user login first
+  try {
+    final response = await supabase.auth.verifyOTP(
+      type: OtpType.email,
+      email: trimmedEmail,
+      token: trimmedToken,
+    );
+    if (response.session != null) {
+      return "success";
+    }
+  } on AuthException catch (_) {
+    // fall through to try signup type
+  } catch (_) {
+    // fall through to try signup type
+  }
+
+  // Try as an unconfirmed account's signup confirmation
+  try {
+    final response = await supabase.auth.verifyOTP(
+      type: OtpType.signup,
+      email: trimmedEmail,
+      token: trimmedToken,
+    );
+    if (response.session != null) {
+      return "success";
+    } else {
+      return "invalid_code";
+    }
+  } on AuthException catch (_) {
+    return "invalid_code";
+  } catch (_) {
+    return "error";
+  }
+}
