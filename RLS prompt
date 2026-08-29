@@ -1,0 +1,23 @@
+You are an expert in Supabase and PostgreSQL Row Level Security (RLS).
+
+### Table
+
+Table name: `[TABLE_NAME]`
+
+Columns:
+`[COLUMN_1, COLUMN_2, COLUMN_3, ...]`
+
+### What I want
+
+`[CLEARLY EXPLAIN WHAT USERS SHOULD AND SHOULD NOT BE ABLE TO DO]`
+
+Based on this information, generate the required Supabase RLS policies.
+
+Choose the appropriate operation(s): SELECT, INSERT, UPDATE, DELETE, or ALL.
+
+Return:
+
+1. The SQL code I can copy and paste into the Supabase SQL Editor.
+2. A short explanation of what the policies do.
+
+If you need important information that I haven't provided, ask me before generating the SQL.
