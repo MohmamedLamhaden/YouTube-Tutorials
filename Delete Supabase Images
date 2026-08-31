@@ -1,0 +1,11 @@
+Future<bool> deleteStorageImage(String imagePath) async {
+  try {
+    final result = await Supabase.instance.client.storage
+        .from('user-images')
+        .remove([imagePath]);
+
+    return result.isNotEmpty;
+  } catch (e) {
+    return false;
+  }
+}
