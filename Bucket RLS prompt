@@ -1,0 +1,24 @@
+You are an expert in Supabase Storage and PostgreSQL Row Level Security (RLS).
+
+### Storage Bucket
+
+Bucket name: `[BUCKET_NAME]`
+
+### What I want
+
+`[CLEARLY EXPLAIN WHAT USERS SHOULD AND SHOULD NOT BE ABLE TO DO WITH FILES IN THIS BUCKET]`
+
+Based on this information, generate the required Supabase Storage RLS policies for the `storage.objects` table.
+
+Choose the appropriate operation(s): SELECT, INSERT, UPDATE, DELETE, or ALL.
+
+Make sure the policies apply **only to the specified bucket** by using the bucket name in the policy conditions.
+
+Consider the appropriate Supabase Storage fields and PostgreSQL RLS expressions, including `bucket_id`, `name`, `owner_id`, `auth.uid()`, and any other relevant `storage.objects` fields when necessary.
+
+Return:
+
+1. The SQL code I can copy and paste into the Supabase SQL Editor.
+2. A short explanation of what the policies do.
+
+If you need important information that I haven't provided, ask me before generating the SQL.
