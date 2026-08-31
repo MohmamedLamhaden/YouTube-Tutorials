@@ -1,11 +1,35 @@
-Future<bool> deleteStorageImage(String imagePath) async {
+Future<bool> deleteSupabaseImageByUrl(String imageUrl) async {
   try {
-    final result = await Supabase.instance.client.storage
-        .from('user-images')
-        .remove([imagePath]);
+    // Public URL pattern:
+    // https://<project>.supabase.co/storage/v1/object/public/<bucket>/<path/to/file.ext>
+    final marker = '/storage/v1/object/public/';
+    final idx = imageUrl.indexOf(marker);
+    if (idx == -1) {
+      print('deleteSupabaseImageByUrl: not a recognizable Supabase public URL');
+      return false;
+    }
 
-    return result.isNotEmpty;
+    // Everything after the marker, minus any query string (?token=... etc.)
+    final afterMarker = imageUrl.substring(idx + marker.length).split('?').first;
+
+    // First path segment = bucket name, rest = file path inside the bucket
+    final segments = afterMarker.split('/');
+    if (segments.length < 2) {
+      print('deleteSupabaseImageByUrl: could not parse bucket/path');
+      return false;
+    }
+
+    final bucket = segments.first;
+    final filePath = Uri.decodeComponent(segments.skip(1).join('/'));
+
+    final response = await SupaFlow.client.storage
+        .from(bucket)
+        .remove([filePath]);
+
+    // response is a List<FileObject> of successfully removed files
+    return response.isNotEmpty;
   } catch (e) {
+    print('deleteSupabaseImageByUrl error: $e');
     return false;
   }
 }
