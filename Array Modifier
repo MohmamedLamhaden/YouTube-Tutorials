@@ -1,0 +1,8 @@
+List<String> processOrder(String order, String item, List<String> array) {
+  if (order == 'add') {
+    array.add(item);
+  } else if (order == 'remove') {
+    array.remove(item);
+  }
+  return array;
+}
