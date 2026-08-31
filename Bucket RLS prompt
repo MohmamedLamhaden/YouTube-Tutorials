@@ -4,26 +4,27 @@ You are an expert in Supabase Storage and PostgreSQL Row Level Security (RLS).
 
 Bucket name: `[BUCKET_NAME]`
 
-### What I want
+### Access Rules
 
-`[CLEARLY EXPLAIN WHAT USERS SHOULD AND SHOULD NOT BE ABLE TO DO WITH FILES IN THIS BUCKET]`
+`[WHAT USERS SHOULD AND SHOULD NOT BE ABLE TO DO WITH FILES]`
+
+### File Structure & Ownership
+
+`[HOW FILES ARE ORGANIZED AND WHO SHOULD OWN OR HAVE ACCESS TO THEM]`
 
 Based on this information, generate the required Supabase Storage RLS policies for the `storage.objects` table.
 
 Choose the appropriate operation(s): SELECT, INSERT, UPDATE, DELETE, or ALL.
 
-Make sure the policies apply **only to the specified bucket** by using the bucket name in the policy conditions.
+Make sure every policy applies only to `[BUCKET_NAME]`.
 
-Use the correct Supabase Storage fields and PostgreSQL RLS expressions for the requested access rules. Consider fields such as `bucket_id`, `name`, `owner_id`, and `auth.uid()` when relevant. Do not assume that `owner_id` is required unless it is appropriate for the requested ownership model.
+Use the appropriate Supabase Storage fields and PostgreSQL RLS expressions to correctly enforce the requested access and ownership rules.
 
-For ownership-based rules, make sure the generated policies correctly enforce that users can access only the objects they are authorized to access.
-
-If the bucket is private, remember that RLS authorization and file retrieval are separate concerns. The RLS policies determine whether the authenticated user is allowed to access the object, but a normal public object URL does not provide access to a private object. If the requested use case requires displaying private files in a client such as FlutterFlow, clearly mention when a signed URL or authenticated Storage request is required.
+Do not assume a particular ownership mechanism unless it matches the requirements provided above.
 
 Return:
 
 1. The SQL code I can copy and paste into the Supabase SQL Editor.
-2. A short explanation of what the policies do.
-3. If the bucket is private, a short note explaining how the client should retrieve the files after the RLS policies authorize access.
+2. A short explanation of what each policy does.
 
-If you need important information that I haven't provided, ask me before generating the SQL.
+If important information is missing, ambiguous, or contradictory, ask me before generating the SQL.
